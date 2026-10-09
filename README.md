@@ -93,6 +93,32 @@ __kurioMocks.scenarios                         // lista com descrição de cada 
 | `wallet-reject` | A carteira recusa a conexão |
 | `live-market` | Preços dos itens em carrinhos mudam a cada 15 s via Socket.IO |
 
+### Links diretos por cenário (deploy)
+
+Cada link aplica o cenário e abre a tela onde o efeito aparece. O cenário fica salvo no navegador até ser trocado;
+volte ao normal com https://kurio.izaque.dev/?reset-mocks ou pelo botão "Resetar dados" do painel. Os cenários de
+checkout pedem login (`demo@kurio.test` / `123456`) e um item no carrinho. Localmente, troque o domínio por
+`http://localhost:5173`.
+
+| Cenário | Link | O que observar |
+| --- | --- | --- |
+| `default` | https://kurio.izaque.dev/?scenario=default | Fluxo normal; pagamento confirmado após 1,5 s |
+| `slow` | https://kurio.izaque.dev/?scenario=slow | Skeletons no catálogo (também em `/nft/sage-009?scenario=slow` e `/cart?scenario=slow`) |
+| `variable-latency` | https://kurio.izaque.dev/?scenario=variable-latency | Troque de página rapidamente: a resposta antiga não sobrescreve a nova |
+| `timeout` | https://kurio.izaque.dev/?scenario=timeout | Catálogo excede o timeout (8 s) e mostra erro com "Tentar novamente" |
+| `offline` | https://kurio.izaque.dev/nft/sage-009?scenario=offline | "Sem conexão com o servidor" com "Tentar novamente" |
+| `server-error` | https://kurio.izaque.dev/?scenario=server-error | HTTP 500 após as novas tentativas automáticas (~15 s) |
+| `empty` | https://kurio.izaque.dev/?scenario=empty | Catálogo vazio com opção de limpar filtros |
+| `session-expired` | https://kurio.izaque.dev/account?scenario=session-expired | Com login feito, a sessão expira e o app pede novo login, voltando à tela anterior |
+| `price-changed` | https://kurio.izaque.dev/checkout?scenario=price-changed | Ao confirmar, o preço muda e exige nova confirmação |
+| `sold-out` | https://kurio.izaque.dev/checkout?scenario=sold-out | Ao confirmar, a edição esgota; a compra é bloqueada e o carrinho preservado |
+| `order-timeout` | https://kurio.izaque.dev/checkout?scenario=order-timeout | A resposta excede o timeout; o app reenvia e recupera o mesmo pedido |
+| `payment-pending` | https://kurio.izaque.dev/checkout?scenario=payment-pending | Pedido pendente por 8 s; recarregue no meio para ver a retomada |
+| `payment-declined` | https://kurio.izaque.dev/checkout?scenario=payment-declined | Pagamento recusado; os itens continuam no carrinho |
+| `favorites-fail` | https://kurio.izaque.dev/nft/sage-009?scenario=favorites-fail | Com login, favoritar volta ao estado anterior e mostra aviso de erro |
+| `wallet-reject` | https://kurio.izaque.dev/checkout?scenario=wallet-reject | A carteira recusa a conexão e o envio fica bloqueado |
+| `live-market` | https://kurio.izaque.dev/cart?scenario=live-market | Com item no carrinho, o preço muda a cada 15 s e o resumo é atualizado |
+
 ### Reproduzindo os fluxos de falha
 
 - **Tempo real no checkout**: com um item no carrinho e o checkout aberto, rode
