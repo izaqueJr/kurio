@@ -120,8 +120,8 @@ As fixtures vivem apenas em `src/mocks/` e só são carregadas quando o MSW est�
 ## Decisões de UX e desvios do Figma
 
 - **Fonte**: Roboto Mono servida localmente (`@fontsource/roboto-mono`, subconjunto latino) — antes não era carregada.
-- **Imagens**: os PNGs dos NFTs e o banner mobile (exportados do Figma, ~1,9 MB cada) são servidos como WebP
-  derivados da mesma arte (`scripts/optimize-images.mjs`); os originais permanecem em `public/assets/figma/`.
+- **Imagens**: os PNGs dos NFTs e o banner mobile (exportados do Figma, ~1,9 MB cada) foram convertidos para WebP
+  (mesma arte, 800 px, qualidade 80); só os WebP ficam no repositório, em `public/assets/figma/`.
 - **Rodapé**: links com altura mínima de 24 px (alvo de toque WCAG), alguns pixels mais espaçados que no Figma.
 - **Painel de pagamento mobile**: o resumo do carrinho é uma folha fixa no rodapé, como no frame mobile.
 - **Ordenação no mobile**: o Figma não mostra o seletor; ele fica dentro do drawer de filtros.

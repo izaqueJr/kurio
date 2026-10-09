@@ -1,0 +1,21 @@
+# Kurio
+
+> Marketplace de NFTs com obras digitais selecionadas, carrinho e pagamento simulado. Demonstração em React: a API, a autenticação, as carteiras, os pagamentos e os eventos em tempo real são simulados no navegador (MSW), então nenhuma compra é real.
+
+## Páginas
+
+- [Início](/): vitrine com destaques, coleções e carrossel de NFTs
+- [Detalhe do NFT](/nft/emerald-042): página de um item, com edições, preço e compra (o caminho segue `/nft/<id>`)
+- [Carrinho](/cart): itens adicionados e total
+- [Checkout](/checkout): seleção de carteira e pagamento simulado (requer login)
+- [Login](/login): acesso à conta do colecionador
+
+## Conta (requer login)
+
+- [Perfil](/perfil): dados do colecionador
+- [Carteiras](/carteiras): carteiras conectadas
+- [Favoritos](/favoritos): NFTs salvos
+
+## Observações
+
+- [Catálogo de recursos para agentes](/.well-known/ai-catalog.json): manifesto ARD; o site ainda não expõe agentes nem servidores MCP

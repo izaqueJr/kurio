@@ -30,7 +30,7 @@ exclusiva para a auditoria.
 | Mudança | Efeito |
 | --- | --- |
 | Perfil desktop do Lighthouse corrigido para o throttling oficial de desktop (antes herdava o throttling mobile) | Medição correta do desktop |
-| Imagens dos NFTs convertidas para WebP (`scripts/optimize-images.mjs`, mesma arte do Figma): ~1,9 MB → 33–48 KB cada | LCP desktop de 4,1 s para 0,8 s |
+| Imagens dos NFTs convertidas para WebP (mesma arte do Figma): ~1,9 MB → 33–48 KB cada | LCP desktop de 4,1 s para 0,8 s |
 | Interface renderiza sem esperar o MSW; Axios e Socket.IO aguardam o transporte ficar pronto | FCP não depende mais da camada de mocks |
 | `socket.io-client`, telas secundárias (code splitting por rota), formulário de login (react-hook-form + zod) e Radix Dialog carregados sob demanda; validação de search params sem zod no bundle inicial | Bundle inicial de 111 KB para 45 KB gzip |
 | `preload` da imagem de LCP por faixa de largura e art direction (`<picture>`) para o destaque de desktop não ser baixado no mobile | Menos disputa de banda antes do LCP |

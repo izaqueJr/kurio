@@ -1,6 +1,6 @@
 // Auditoria Lighthouse: início e detalhe do NFT, perfis mobile e desktop, 3 execuções cada.
 // Usa o build otimizado (vite build + preview) com o cenário padrão dos mocks.
-// Saída versionada em reports/lighthouse/ (HTML + JSON por execução, summary.json e SUMMARY.md).
+// Saída em reports/lighthouse/: HTML + JSON por execução (ignorados pelo git) e summary.json/SUMMARY.md (versionados).
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { spawn, execSync } from 'node:child_process'
 import os from 'node:os'
@@ -26,7 +26,7 @@ const pages = [
   { name: 'detail', url: `${base}/nft/sage-009` },
 ]
 const RUNS = 3
-const targets = { performance: 90, accessibility: 95, bestPractices: 95, seo: 90 }
+const targets = { performance: 90, accessibility: 95, bestPractices: 95, seo: 90, agentic: 100 }
 
 function run(command, args) {
   return new Promise((resolve, reject) => {
@@ -70,6 +70,7 @@ try {
           accessibility: Math.round(data.categories.accessibility.score * 100),
           bestPractices: Math.round(data.categories['best-practices'].score * 100),
           seo: Math.round(data.categories.seo.score * 100),
+          agentic: Math.round(data.categories['agentic-browsing'].score * 100),
           lcp: Math.round(data.audits['largest-contentful-paint'].numericValue),
           cls: Number(data.audits['cumulative-layout-shift'].numericValue.toFixed(3)),
           tbt: Math.round(data.audits['total-blocking-time'].numericValue),
@@ -84,7 +85,7 @@ try {
 }
 
 const median = (values) => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)]
-const metrics = ['performance', 'accessibility', 'bestPractices', 'seo', 'lcp', 'cls', 'tbt']
+const metrics = ['performance', 'accessibility', 'bestPractices', 'seo', 'agentic', 'lcp', 'cls', 'tbt']
 const summary = Object.fromEntries(profiles.flatMap((profile) => pages.map((page) => {
   const group = results.filter((result) => result.profile === profile.name && result.page === page.name)
   return [`${profile.name}-${page.name}`, Object.fromEntries(metrics.map((metric) => [metric, median(group.map((result) => result[metric]))]))]
@@ -103,17 +104,17 @@ await writeFile(`${output}/summary.json`, JSON.stringify({ environment, targets,
 
 const row = (key, value) => {
   const ok = (metric) => (targets[metric] === undefined ? '' : value[metric] >= targets[metric] ? ' ✅' : ' ⚠️')
-  return `| ${key} | ${value.performance}${ok('performance')} | ${value.accessibility}${ok('accessibility')} | ${value.bestPractices}${ok('bestPractices')} | ${value.seo}${ok('seo')} | ${(value.lcp / 1000).toFixed(2)} s | ${value.cls} | ${value.tbt} ms |`
+  return `| ${key} | ${value.performance}${ok('performance')} | ${value.accessibility}${ok('accessibility')} | ${value.bestPractices}${ok('bestPractices')} | ${value.seo}${ok('seo')} | ${value.agentic}${ok('agentic')} | ${(value.lcp / 1000).toFixed(2)} s | ${value.cls} | ${value.tbt} ms |`
 }
 const markdown = `# Auditoria Lighthouse
 
 Gerado em ${environment.generatedAt}. Mediana de ${RUNS} execuções por página e perfil.
 
-| Página / perfil | Performance | Accessibility | Best Practices | SEO | LCP | CLS | TBT |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Página / perfil | Performance | Accessibility | Best Practices | SEO | Agentic Browsing | LCP | CLS | TBT |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 ${Object.entries(summary).map(([key, value]) => row(key, value)).join('\n')}
 
-Metas: Performance ≥ ${targets.performance}, Accessibility ≥ ${targets.accessibility}, Best Practices ≥ ${targets.bestPractices}, SEO ≥ ${targets.seo}.
+Metas: Performance ≥ ${targets.performance}, Accessibility ≥ ${targets.accessibility}, Best Practices ≥ ${targets.bestPractices}, SEO ≥ ${targets.seo}, Agentic Browsing = ${targets.agentic}.
 
 ## Ambiente
 
@@ -125,7 +126,7 @@ Metas: Performance ≥ ${targets.performance}, Accessibility ≥ ${targets.acces
 - CPU: ${environment.cpu}
 - Condições: ${environment.conditions}
 
-Relatórios individuais: \`<perfil>-<página>-<execução>.report.html\` / \`.report.json\` nesta pasta.
+Relatórios individuais (`<perfil>-<página>-<execução>.report.html` / `.report.json`) são gerados nesta pasta por `npm run audit` e não são versionados.
 `
 await writeFile(`${output}/SUMMARY.md`, markdown)
 console.log(markdown)

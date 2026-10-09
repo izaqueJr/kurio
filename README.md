@@ -41,7 +41,6 @@ Copie `.env.example` para `.env` se quiser alterar os padrões:
 | `npm run test:e2e:update` | Regenera as baselines de regressão visual |
 | `npm run test:e2e:report` | Abre o relatório HTML (`playwright-report/`); traces das falhas em `test-results/` |
 | `npm run audit` | Lighthouse (início e detalhe, mobile e desktop, 3 execuções) → `reports/lighthouse/` |
-| `node scripts/optimize-images.mjs` | Regenera os derivados WebP dos assets do Figma |
 
 ## Credenciais fictícias
 

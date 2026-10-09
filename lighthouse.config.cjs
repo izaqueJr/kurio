@@ -14,6 +14,6 @@ module.exports = {
       uploadThroughputKbps: 0,
     },
     emulatedUserAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-    onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+    onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo', 'agentic-browsing'],
   },
 }
