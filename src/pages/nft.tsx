@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "@tanstack/react-router";
-import { ChevronLeft, Heart, Minus, Plus, Search, Share2, Star } from "lucide-react";
+import { Check, ChevronLeft, Heart, Minus, Plus, Search, Share2, Star } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Alert } from "../components/ui/feedback";
 import { Dialog, DialogContent, DialogTitle } from "../components/ui/dialog";
@@ -160,6 +160,65 @@ function DetailRelatedCarousel({ items }: { items: Nft[] }) {
   );
 }
 
+type ShareStatus = "idle" | "copied" | "error";
+
+async function copyText(text: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return;
+  } catch {
+    // Sem Clipboard API ou permissão negada (ex.: http fora de localhost, iframe): usa a cópia por seleção.
+  }
+  const field = document.createElement("textarea");
+  field.value = text;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.opacity = "0";
+  document.body.append(field);
+  field.select();
+  const copied = document.execCommand("copy");
+  field.remove();
+  if (!copied) throw new Error("copy failed");
+}
+
+/** Copia o link do NFT (ou abre a folha de compartilhamento nativa) com feedback visível e anunciado. */
+function useShareLink() {
+  const [status, setStatus] = useState<ShareStatus>("idle");
+  const timer = useRef<number>();
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  const flash = (next: ShareStatus) => {
+    setStatus(next);
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setStatus("idle"), 2500);
+  };
+
+  const copy = async (url: string) => {
+    try {
+      await copyText(url);
+      flash("copied");
+      announce("Link do NFT copiado para a área de transferência.");
+    } catch {
+      flash("error");
+      announce("Não foi possível copiar o link. Copie o endereço da página.", "assertive");
+    }
+  };
+
+  const share = async (data: { title: string; text: string; url: string }) => {
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share(data);
+        return;
+      } catch (error) {
+        if ((error as DOMException).name === "AbortError") return;
+      }
+    }
+    await copy(data.url);
+  };
+
+  return { status, copy, share };
+}
+
 export function NftPage() {
   const { nftId } = useParams({ from: "/nft/$nftId" });
   const navigate = useNavigate();
@@ -177,6 +236,7 @@ export function NftPage() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedEdition, setSelectedEdition] = useState("");
   const [zoomOpen, setZoomOpen] = useState(false);
+  const shareLink = useShareLink();
 
   if (detail.isPending)
     return (
@@ -212,14 +272,8 @@ export function NftPage() {
     }
     toggleFavorite.mutate({ nftId, favorite: !isFavorite, name: nft.name });
   };
-  const onShare = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      announce("Link do NFT copiado para a área de transferência.");
-    } catch {
-      announce("Não foi possível copiar o link. Copie o endereço da página.", "assertive");
-    }
-  };
+  const shareUrl = `${window.location.origin}/nft/${nft.id}`;
+  const shareText = `${nft.name} ${nft.token} na Kurio`;
   const favoriteLabel = isFavorite ? "Remover dos favoritos" : "Favoritar NFT";
 
   return (
@@ -234,9 +288,23 @@ export function NftPage() {
               <button type="button" aria-label="Voltar ao mercado" onClick={() => navigate({ to: "/", hash: "mercado" })}>
                 <ChevronLeft size={20} />
               </button>
-              <button type="button" aria-label={favoriteLabel} aria-pressed={isFavorite} onClick={onFavorite}>
-                <Heart size={18} fill={isFavorite ? "currentColor" : "none"} />
-              </button>
+              <div className="detail-mobile-actions__group">
+                {shareLink.status !== "idle" && (
+                  <span className={`detail-share__status${shareLink.status === "error" ? " is-error" : ""}`} aria-hidden="true">
+                    {shareLink.status === "copied" ? "Link copiado!" : "Não foi possível copiar"}
+                  </span>
+                )}
+                <button
+                  type="button"
+                  aria-label="Compartilhar NFT"
+                  onClick={() => void shareLink.share({ title: shareText, text: shareText, url: shareUrl })}
+                >
+                  {shareLink.status === "copied" ? <Check size={18} /> : <Share2 size={18} />}
+                </button>
+                <button type="button" aria-label={favoriteLabel} aria-pressed={isFavorite} onClick={onFavorite}>
+                  <Heart size={18} fill={isFavorite ? "currentColor" : "none"} />
+                </button>
+              </div>
             </div>
             <div className="detail-gallery__thumbs" role="group" aria-label="Imagens do NFT">
               {images.map((image, index) => (
@@ -367,17 +435,28 @@ export function NftPage() {
               </div>
               <div className="detail-share">
                 <b>Compartilhar este NFT:</b>
-                <button type="button" aria-label="Copiar link do NFT" onClick={() => void onShare()}>
-                  <Share2 size={15} />
+                <button
+                  type="button"
+                  aria-label={shareLink.status === "copied" ? "Link do NFT copiado" : "Copiar link do NFT"}
+                  title="Copiar link"
+                  onClick={() => void shareLink.copy(shareUrl)}
+                >
+                  {shareLink.status === "copied" ? <Check size={15} /> : <Share2 size={15} />}
                 </button>
                 <a
                   aria-label="Compartilhar no X (abre em nova aba)"
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`${nft.name} ${nft.token} na Kurio`)}&url=${encodeURIComponent(window.location.href)}`}
+                  title="Compartilhar no X"
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
                   target="_blank"
                   rel="noreferrer noopener"
                 >
                   <span aria-hidden="true">𝕏</span>
                 </a>
+                {shareLink.status !== "idle" && (
+                  <span className={`detail-share__status${shareLink.status === "error" ? " is-error" : ""}`} aria-hidden="true">
+                    {shareLink.status === "copied" ? "Link copiado!" : "Não foi possível copiar"}
+                  </span>
+                )}
               </div>
             </div>
           </div>

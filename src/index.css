@@ -98,7 +98,12 @@
 .detail-meta > div:not(.detail-share) span::after { content: ':'; }
 .detail-meta > div:not(.detail-share) b { font-weight: 400; }
 .detail-share { display: flex; align-items: center; gap: 8px; color: #f5f1eb; font: 700 15px/1.07 'Roboto Mono', monospace; }
-.detail-share button, .detail-share a { display: grid; place-items: center; width: 18px; height: 18px; padding: 0; border: 0; color: #f5f1eb; background: transparent; }
+.detail-share button, .detail-share a { display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 4px; color: #f5f1eb; background: transparent; cursor: pointer; text-decoration: none; }
+.detail-share button:hover, .detail-share a:hover { color: #e89b55; }
+.detail-share { flex-wrap: wrap; }
+.detail-share > b { white-space: nowrap; }
+.detail-share__status { color: #e89b55; font: 400 13px/1 'Roboto Mono', monospace; white-space: nowrap; }
+.detail-share__status.is-error { color: #f3a08c; }
 .detail-description { display: grid; gap: 12px; min-height: 340px; margin-top: 96px; }
 .detail-description__heading { display: flex; gap: 32px; border-bottom: 1px solid #d28a4c; }
 .detail-description__heading button { position: relative; padding: 0 0 12px; border: 0; color: #cfb28c; background: transparent; font: 17px/1 'Roboto Mono', monospace; }
@@ -417,6 +422,8 @@
   .detail-product { display: flex; flex-direction: column; gap: 0; min-height: 0; }
   .detail-gallery { display: block; width: 100%; height: 506px; padding: 23px 28px 0; background: linear-gradient(143deg, #241612 0%, #2f1d15 100%); }
   .detail-mobile-actions { position: relative; z-index: 3; display: flex; align-items: center; justify-content: space-between; width: 100%; height: 35px; }
+  .detail-mobile-actions__group { display: flex; align-items: center; gap: 8px; }
+  .detail-mobile-actions__group .detail-share__status { padding: 6px 8px; border-radius: 6px; background: #2f1d15; }
   .detail-mobile-actions button { display: grid; place-items: center; width: 35px; height: 35px; padding: 0; border: 0; border-radius: 6px; color: #f5f1eb; background: #2f1d15; }
   .detail-gallery__thumbs { display: none; }
   .detail-gallery__main { width: 100%; height: 356px; margin-top: 8px; padding: 0; background: transparent; }

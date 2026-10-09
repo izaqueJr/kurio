@@ -33,6 +33,29 @@ test.describe('detalhe do NFT', () => {
     await expect(page.getByRole('heading', { name: 'Página não encontrada' })).toBeVisible()
   })
 
+  test('compartilhar copia o link do NFT ou abre o compartilhamento nativo', async ({ page, context, isMobile }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'share', {
+        configurable: true,
+        value: async (data: ShareData) => { (window as unknown as { __shared: ShareData }).__shared = data },
+      })
+    })
+    await open(page, '/nft/sage-009')
+    const url = new URL('/nft/sage-009', page.url()).href
+
+    if (isMobile) {
+      await page.getByRole('button', { name: 'Compartilhar NFT' }).click()
+      await expect.poll(() => page.evaluate(() => (window as unknown as { __shared?: ShareData }).__shared?.url)).toBe(url)
+      return
+    }
+    await page.getByRole('button', { name: 'Copiar link do NFT' }).click()
+    await expect(page.locator('.detail-share').getByText('Link copiado!')).toBeVisible()
+    await expect(page.getByTestId('live-polite')).toHaveText('Link do NFT copiado para a área de transferência.')
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(url)
+    await expect(page.getByRole('link', { name: 'Compartilhar no X (abre em nova aba)' })).toHaveAttribute('href', new RegExp(encodeURIComponent(url)))
+  })
+
   test('NFT esgotado não pode ser comprado', async ({ page }) => {
     await open(page, '/nft/golden-195')
     await expect(page.getByText('Todas as edições estão esgotadas.')).toBeVisible()
