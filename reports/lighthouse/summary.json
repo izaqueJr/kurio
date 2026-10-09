@@ -1,6 +1,6 @@
 {
   "environment": {
-    "generatedAt": "2026-10-09T22:50:52.425Z",
+    "generatedAt": "2026-10-09T23:06:01.388Z",
     "node": "v22.20.0",
     "lighthouse": "13.5.0",
     "chrome": "Chrome/152.0.0.0",
@@ -23,8 +23,8 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 798,
-      "cls": 0.001,
+      "lcp": 805,
+      "cls": 0,
       "tbt": 0
     },
     "desktop-detail": {
@@ -33,19 +33,19 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 819,
+      "lcp": 830,
       "cls": 0.047,
       "tbt": 0
     },
     "mobile-home": {
-      "performance": 88,
+      "performance": 87,
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 3507,
+      "lcp": 3583,
       "cls": 0,
-      "tbt": 39
+      "tbt": 36
     },
     "mobile-detail": {
       "performance": 85,
@@ -53,9 +53,9 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 3731,
+      "lcp": 3746,
       "cls": 0,
-      "tbt": 48
+      "tbt": 27
     }
   },
   "results": [
@@ -68,8 +68,8 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 806,
-      "cls": 0.001,
+      "lcp": 812,
+      "cls": 0,
       "tbt": 0
     },
     {
@@ -81,8 +81,8 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 798,
-      "cls": 0.001,
+      "lcp": 805,
+      "cls": 0,
       "tbt": 0
     },
     {
@@ -107,7 +107,7 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 816,
+      "lcp": 834,
       "cls": 0.047,
       "tbt": 0
     },
@@ -120,7 +120,7 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 826,
+      "lcp": 830,
       "cls": 0.047,
       "tbt": 0
     },
@@ -133,7 +133,7 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 819,
+      "lcp": 825,
       "cls": 0.047,
       "tbt": 0
     },
@@ -141,40 +141,40 @@
       "profile": "mobile",
       "page": "home",
       "run": 1,
-      "performance": 84,
+      "performance": 87,
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 3527,
+      "lcp": 3583,
       "cls": 0,
-      "tbt": 226
+      "tbt": 35
     },
     {
       "profile": "mobile",
       "page": "home",
       "run": 2,
-      "performance": 88,
+      "performance": 87,
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 3507,
+      "lcp": 3583,
       "cls": 0,
-      "tbt": 39
+      "tbt": 36
     },
     {
       "profile": "mobile",
       "page": "home",
       "run": 3,
-      "performance": 88,
+      "performance": 87,
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 3506,
+      "lcp": 3589,
       "cls": 0,
-      "tbt": 39
+      "tbt": 43
     },
     {
       "profile": "mobile",
@@ -185,22 +185,22 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 3731,
+      "lcp": 3749,
       "cls": 0,
-      "tbt": 48
+      "tbt": 18
     },
     {
       "profile": "mobile",
       "page": "detail",
       "run": 2,
-      "performance": 78,
+      "performance": 85,
       "accessibility": 97,
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 4106,
+      "lcp": 3746,
       "cls": 0,
-      "tbt": 269
+      "tbt": 29
     },
     {
       "profile": "mobile",
@@ -211,9 +211,9 @@
       "bestPractices": 100,
       "seo": 100,
       "agentic": 100,
-      "lcp": 3697,
+      "lcp": 3742,
       "cls": 0,
-      "tbt": 25
+      "tbt": 27
     }
   ]
 }

@@ -1,0 +1,14 @@
+.scenario-panel { position: fixed; z-index: 95; top: 50%; left: 0; display: flex; align-items: center; font: 12px/1.4 'Roboto Mono', monospace; transform: translateY(-50%); }
+.scenario-panel__trigger { min-height: 24px; padding: 10px 5px; border: 1px solid #55321f; border-left: 0; border-radius: 0 6px 6px 0; color: #cfb28c; background: #241612; font: inherit; writing-mode: vertical-rl; transform: rotate(180deg); cursor: pointer; }
+.scenario-panel__trigger.is-custom { border-color: #e89b55; color: #140d0a; background: #e89b55; }
+.scenario-panel__trigger:focus-visible, .scenario-panel__body :focus-visible { outline: 2px solid #f5f1eb; outline-offset: 2px; }
+.scenario-panel__body { display: grid; gap: 10px; width: min(300px, calc(100vw - 56px)); margin-left: 8px; padding: 16px; border: 1px solid #d28a4c; border-radius: 8px; color: #f5f1eb; background: #241612; box-shadow: 0 10px 32px #0009; }
+.scenario-panel__body label { font-weight: 700; }
+.scenario-panel__body select { min-height: 36px; padding: 0 8px; border: 1px solid #55321f; border-radius: 6px; color: #f5f1eb; background: #140d0a; font: inherit; }
+.scenario-panel__body p { margin: 0; color: #cfb28c; }
+.scenario-panel__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.scenario-panel__actions button { min-height: 32px; padding: 0 12px; border: 1px solid #d28a4c; border-radius: 6px; color: #f5f1eb; background: transparent; font: inherit; cursor: pointer; }
+.scenario-panel__actions button:first-child { color: #140d0a; background: #e89b55; }
+.scenario-panel__actions button:disabled { opacity: 0.5; cursor: not-allowed; }
+.scenario-panel__hint { font-size: 11px; }
+@media print { .scenario-panel { display: none; } }

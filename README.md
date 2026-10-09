@@ -55,7 +55,13 @@ Senhas são armazenadas apenas como hash SHA-256 com sal.
 ## Cenários da simulação
 
 O estado da API simulada (catálogo, usuários, sessões, carrinhos, favoritos, carteiras e pedidos) persiste no
-`localStorage` para sobreviver a refresh. Selecione cenários pela URL ou pelo console:
+`localStorage` para sobreviver a refresh.
+
+O jeito mais simples é o **painel de simulação**: a aba "Simulação: &lt;cenário&gt;" na borda esquerda da tela
+(presente sempre que o MSW está ativo, inclusive no deploy). Ela mostra o cenário atual (destacada quando não é o
+`default`), permite escolher outro com a descrição do efeito, aplicar e recarregar, ou resetar todos os dados.
+
+Também é possível selecionar cenários pela URL ou pelo console:
 
 ```text
 http://localhost:5173/?scenario=slow          # aplica o cenário e recarrega normalmente

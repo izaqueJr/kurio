@@ -97,6 +97,31 @@ test.describe('carregamento, falhas e recuperação', () => {
   })
 })
 
+test('painel de simulação troca o cenário, recarrega e restaura os dados', async ({ page }) => {
+  await open(page, '/')
+  const trigger = page.getByRole('button', { name: 'Simulação: default' })
+  await trigger.click()
+  const select = page.getByLabel('Cenário da API simulada')
+  await expect(select).toBeFocused()
+  await select.selectOption('empty')
+  await expect(page.getByText('Catálogo sem resultados.')).toBeVisible()
+  await page.getByRole('button', { name: 'Aplicar e recarregar' }).click()
+
+  await page.waitForFunction(() => Boolean(window.__kurioMocks))
+  await expect(page.getByRole('button', { name: 'Simulação: empty' })).toBeVisible()
+  await expect.poll(() => page.evaluate(() => window.__kurioMocks!.getScenario())).toBe('empty')
+
+  await page.getByRole('button', { name: 'Simulação: empty' }).click()
+  await page.keyboard.press('Escape')
+  await expect(page.getByLabel('Cenário da API simulada')).toBeHidden()
+  await expect(page.getByRole('button', { name: 'Simulação: empty' })).toBeFocused()
+
+  await page.getByRole('button', { name: 'Simulação: empty' }).click()
+  await page.getByRole('button', { name: 'Resetar dados' }).click()
+  await page.waitForFunction(() => Boolean(window.__kurioMocks))
+  await expect(page.getByRole('button', { name: 'Simulação: default' })).toBeVisible()
+})
+
 test('rodapé: grupos de links em acordeão no mobile e colunas abertas no desktop', async ({ page, isMobile }) => {
   await open(page, '/nft/sage-009')
   const footer = page.locator('footer')

@@ -1,13 +1,13 @@
 # Auditoria Lighthouse
 
-Gerado em 2026-10-09T22:50:52.425Z. Mediana de 3 execuções por página e perfil.
+Gerado em 2026-10-09T23:06:01.388Z. Mediana de 3 execuções por página e perfil.
 
 | Página / perfil | Performance | Accessibility | Best Practices | SEO | Agentic Browsing | LCP | CLS | TBT |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| desktop-home | 100 ✅ | 96 ✅ | 100 ✅ | 100 ✅ | 100 ✅ | 0.80 s | 0.001 | 0 ms |
-| desktop-detail | 99 ✅ | 97 ✅ | 100 ✅ | 100 ✅ | 100 ✅ | 0.82 s | 0.047 | 0 ms |
-| mobile-home | 88 ⚠️ | 100 ✅ | 100 ✅ | 100 ✅ | 100 ✅ | 3.51 s | 0 | 39 ms |
-| mobile-detail | 85 ⚠️ | 97 ✅ | 100 ✅ | 100 ✅ | 100 ✅ | 3.73 s | 0 | 48 ms |
+| desktop-home | 100 ✅ | 96 ✅ | 100 ✅ | 100 ✅ | 100 ✅ | 0.81 s | 0 | 0 ms |
+| desktop-detail | 99 ✅ | 97 ✅ | 100 ✅ | 100 ✅ | 100 ✅ | 0.83 s | 0.047 | 0 ms |
+| mobile-home | 87 ⚠️ | 100 ✅ | 100 ✅ | 100 ✅ | 100 ✅ | 3.58 s | 0 | 36 ms |
+| mobile-detail | 85 ⚠️ | 97 ✅ | 100 ✅ | 100 ✅ | 100 ✅ | 3.75 s | 0 | 27 ms |
 
 Metas: Performance ≥ 90, Accessibility ≥ 95, Best Practices ≥ 95, SEO ≥ 90, Agentic Browsing = 100.
 

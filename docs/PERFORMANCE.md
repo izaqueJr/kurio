@@ -5,15 +5,15 @@ execuções por página e perfil; HTML/JSON de cada execução na mesma pasta). 
 
 | Página / perfil | Performance | Accessibility | Best Practices | SEO | LCP | CLS | TBT |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| desktop · início | 100 | 96 | 100 | 100 | 0,80 s | 0,001 | 0 ms |
-| desktop · detalhe | 99 | 97 | 100 | 100 | 0,82 s | 0,047 | 0 ms |
-| mobile · início | 88 | 100 | 100 | 100 | 3,51 s | 0 | 39 ms |
-| mobile · detalhe | 85 | 97 | 100 | 100 | 3,73 s | 0 | 48 ms |
+| desktop · início | 100 | 96 | 100 | 100 | 0,81 s | 0 | 0 ms |
+| desktop · detalhe | 99 | 97 | 100 | 100 | 0,83 s | 0,047 | 0 ms |
+| mobile · início | 87 | 100 | 100 | 100 | 3,58 s | 0 | 36 ms |
+| mobile · detalhe | 85 | 97 | 100 | 100 | 3,75 s | 0 | 27 ms |
 
-Todas as categorias atingem a meta na medição local, exceto **Performance no perfil mobile (85–88 contra 90)**.
+Todas as categorias atingem a meta na medição local, exceto **Performance no perfil mobile (85–87 contra 90)**.
 Em produção o PageSpeed Insights mede **93** no mobile (ver abaixo).
 
-## Por que o mobile local fica em 85–88
+## Por que o mobile local fica em 85–87
 
 O perfil mobile do Lighthouse simula um Moto G Power em "slow 4G": 150 ms de RTT, **~560 ms de latência por
 requisição**, 1,6 Mbps e CPU 4× mais lenta. A aplicação é renderizada só no cliente (SPA, sem SSR): o HTML chega

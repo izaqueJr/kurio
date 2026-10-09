@@ -28,6 +28,10 @@ function start() {
   void import('./mocks/browser')
     .then(({ startMocks }) => startMocks())
     .then(markTransportReady, markTransportFailed)
+    // Painel de cenários da demonstração, carregado depois do worker para não disputar o carregamento inicial.
+    .then(() => import('./mocks/scenario-panel'))
+    .then(({ mountScenarioPanel }) => mountScenarioPanel())
+    .catch(() => undefined)
 }
 
 start()
