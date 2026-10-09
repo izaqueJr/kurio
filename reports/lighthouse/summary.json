@@ -1,0 +1,202 @@
+{
+  "environment": {
+    "generatedAt": "2026-10-09T19:02:20.728Z",
+    "node": "v22.20.0",
+    "lighthouse": "13.5.0",
+    "chrome": "Chrome/152.0.0.0",
+    "vite": "vite/6.4.4 win32-x64 node-v22.20.0",
+    "os": "Windows_NT 10.0.26200 (x64)",
+    "cpu": "13th Gen Intel(R) Core(TM) i5-13420H",
+    "conditions": "Build de produção (vite build + preview em 127.0.0.1:4173), MSW ativo no cenário padrão, Chrome headless, throttling padrão do Lighthouse para cada formFactor, 3 execuções por página e perfil (mediana)."
+  },
+  "targets": {
+    "performance": 90,
+    "accessibility": 95,
+    "bestPractices": 95,
+    "seo": 90
+  },
+  "summary": {
+    "desktop-home": {
+      "performance": 100,
+      "accessibility": 96,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 786,
+      "cls": 0,
+      "tbt": 0
+    },
+    "desktop-detail": {
+      "performance": 99,
+      "accessibility": 97,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 761,
+      "cls": 0.047,
+      "tbt": 0
+    },
+    "mobile-home": {
+      "performance": 88,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 3492,
+      "cls": 0,
+      "tbt": 35
+    },
+    "mobile-detail": {
+      "performance": 88,
+      "accessibility": 97,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 3473,
+      "cls": 0,
+      "tbt": 26
+    }
+  },
+  "results": [
+    {
+      "profile": "desktop",
+      "page": "home",
+      "run": 1,
+      "performance": 100,
+      "accessibility": 96,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 803,
+      "cls": 0.001,
+      "tbt": 0
+    },
+    {
+      "profile": "desktop",
+      "page": "home",
+      "run": 2,
+      "performance": 100,
+      "accessibility": 96,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 786,
+      "cls": 0,
+      "tbt": 0
+    },
+    {
+      "profile": "desktop",
+      "page": "home",
+      "run": 3,
+      "performance": 100,
+      "accessibility": 96,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 782,
+      "cls": 0,
+      "tbt": 0
+    },
+    {
+      "profile": "desktop",
+      "page": "detail",
+      "run": 1,
+      "performance": 99,
+      "accessibility": 97,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 762,
+      "cls": 0.047,
+      "tbt": 0
+    },
+    {
+      "profile": "desktop",
+      "page": "detail",
+      "run": 2,
+      "performance": 99,
+      "accessibility": 97,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 745,
+      "cls": 0.047,
+      "tbt": 0
+    },
+    {
+      "profile": "desktop",
+      "page": "detail",
+      "run": 3,
+      "performance": 99,
+      "accessibility": 97,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 761,
+      "cls": 0.047,
+      "tbt": 0
+    },
+    {
+      "profile": "mobile",
+      "page": "home",
+      "run": 1,
+      "performance": 88,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 3486,
+      "cls": 0,
+      "tbt": 34
+    },
+    {
+      "profile": "mobile",
+      "page": "home",
+      "run": 2,
+      "performance": 88,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 3492,
+      "cls": 0,
+      "tbt": 35
+    },
+    {
+      "profile": "mobile",
+      "page": "home",
+      "run": 3,
+      "performance": 88,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 3496,
+      "cls": 0,
+      "tbt": 35
+    },
+    {
+      "profile": "mobile",
+      "page": "detail",
+      "run": 1,
+      "performance": 88,
+      "accessibility": 97,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 3459,
+      "cls": 0,
+      "tbt": 26
+    },
+    {
+      "profile": "mobile",
+      "page": "detail",
+      "run": 2,
+      "performance": 88,
+      "accessibility": 97,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 3473,
+      "cls": 0,
+      "tbt": 58
+    },
+    {
+      "profile": "mobile",
+      "page": "detail",
+      "run": 3,
+      "performance": 88,
+      "accessibility": 97,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcp": 3478,
+      "cls": 0,
+      "tbt": 26
+    }
+  ]
+}

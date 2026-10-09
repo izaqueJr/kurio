@@ -1,0 +1,170 @@
+/* Estados de interface, formulários e componentes adicionados sobre o layout do Figma. */
+
+/* ---------- Acessibilidade e estados compartilhados ---------- */
+.sr-only { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip-link { position: fixed; z-index: 200; top: 8px; left: 8px; padding: 10px 14px; border-radius: 6px; color: #140d0a; background: #e89b55; font: 700 14px 'Roboto Mono', monospace; transform: translateY(-160%); transition: transform .15s ease; }
+.skip-link:focus { transform: translateY(0); }
+:where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid #e89b55; outline-offset: 2px; }
+.text-link { padding: 0; border: 0; color: #e89b55; background: transparent; font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+[aria-disabled="true"] { cursor: not-allowed; }
+.skeleton-block { min-height: 12px; background: linear-gradient(100deg, #241612 30%, #38220f 50%, #241612 70%); background-size: 220% 100%; animation: shimmer 1.25s infinite linear; }
+.page-skeleton { display: grid; gap: 16px; padding: 24px 0; }
+.state-error { margin: 24px 0; }
+.state-error button { min-width: 180px; }
+.not-found__code { margin: 0; color: #e89b55 !important; font: 700 48px/1 'Roboto Mono', monospace; }
+.realtime-notices { margin: 0 0 16px; }
+.realtime-notices ul, .cart-summary ul, .checkout-content ul { margin: 0; padding-left: 18px; }
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-block, .skeleton { animation: none; }
+  .order-pending__spinner { animation: none !important; }
+}
+
+/* ---------- Formulários ---------- */
+.form-field { display: grid; gap: 4px; min-width: 0; }
+.account-form .form-field { gap: 10px; }
+.form-field > label { display: grid; gap: 4px; }
+.form-field__hint { color: #b39463; font: 11px/1.35 'Roboto Mono', monospace; }
+.form-field__error { display: block; color: #ffb4a1; font: 12px/1.35 'Roboto Mono', monospace; }
+.form-field.has-error input, .form-field.has-error select, .form-field.has-error textarea, .form-field.has-error .checkout-input-suffix, input[aria-invalid="true"] { border-color: #f0805f !important; }
+.auth-modal__form .form-field { gap: 6px; }
+.account-passwords { margin: 0; padding: 0; border: 0; min-width: 0; }
+.account-passwords legend { padding: 0; margin-bottom: 24px; }
+.account-form__status { max-width: 640px; }
+.account-wallet-form__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.account-wallet-form__actions > button { min-width: 131px; height: 40px; border-radius: 3px; font: 700 14px/1.14 'Roboto Mono', monospace; }
+.account-sidebar__item.is-unavailable { opacity: .7; }
+.account-sidebar__item small { margin-left: auto; font-size: 11px; }
+.checkout-other-wallet { margin: 4px 0 0; color: #f5f1eb; font: 14px/1.4 'Roboto Mono', monospace; }
+.checkout-terms { cursor: pointer; }
+.checkout-summary__items { margin: 0; padding: 0; list-style: none; }
+.checkout-wallet__connection { display: grid; gap: 8px; }
+.checkout-wallet__connection > button { width: 100%; height: 40px; }
+.wallet-status { color: #b39463; }
+.wallet-status.is-connected { color: #8fd19e !important; }
+.checkout-review { width: min(520px, calc(100vw - 32px)); }
+.checkout-review__items { display: grid; gap: 8px; margin: 0; padding: 0 !important; list-style: none; font: 14px/1.4 'Roboto Mono', monospace; }
+.checkout-review__items li, .checkout-review__meta > div { display: flex; justify-content: space-between; gap: 16px; }
+.checkout-review__items b { color: #e89b55; white-space: nowrap; }
+.checkout-review__meta { display: grid; gap: 8px; margin: 0; padding-top: 12px; border-top: 1px solid #55321f; font: 14px/1.4 'Roboto Mono', monospace; }
+.checkout-review__meta dt { color: #cfb28c; }
+.checkout-review__meta dd { margin: 0; text-align: right; }
+.checkout-review__total { padding-top: 8px; border-top: 1px solid #d28a4c; font-weight: 700; }
+.checkout-review__total dd { color: #e89b55; font-size: 18px; }
+.checkout-review__actions { display: flex; justify-content: flex-end; gap: 12px; }
+.checkout-review__actions > button { min-width: 140px; height: 44px; border-radius: 999px; }
+.checkout-content > [role="alert"], .checkout-content > [role="status"] { margin-bottom: 16px; }
+
+/* ---------- Catálogo ---------- */
+.artwork-card { position: relative; }
+.artwork-card--skeleton .artwork-card__image { aspect-ratio: 1; border-radius: 9px; }
+.artwork-skeleton__title { height: 14px; width: 70%; margin: 11px 0 6px; }
+.artwork-skeleton__price { height: 14px; width: 40%; }
+.artwork-card__badge { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 999px; color: #140d0a; background: #f5f1eb; font: 700 11px/1.2 'Roboto Mono', monospace; }
+.artwork-card.is-sold-out .artwork-card__image { filter: grayscale(.6) brightness(.75); }
+.catalog-state { display: grid; justify-items: center; align-content: center; gap: 12px; text-align: center; }
+.catalog-state p { margin: 0; }
+.catalog-inline-error { margin: 12px 0 0; color: #ffb4a1; font-size: 13px; }
+.catalog-inline-error button { padding: 0; border: 0; color: #e89b55; background: none; text-decoration: underline; }
+.journal-card__more { padding: 0; border: 0; background: none; font-family: inherit; }
+.mobile-filter-dialog__backdrop { position: fixed; z-index: 90; inset: 0; background: #140d0ad9; }
+.mobile-filter-dialog__panel--dialog { position: fixed; z-index: 95; top: 68px; right: 16px; left: 16px; }
+.mobile-filter-dialog__panel--dialog > button[aria-label="Fechar filtros"] { top: 12px; right: 12px; z-index: 2; }
+
+/* ---------- Detalhe ---------- */
+.detail-breadcrumb a:hover { color: #e89b55; }
+.detail-edition button:disabled { border-style: dashed; color: #6f5a45; text-decoration: line-through; cursor: not-allowed; }
+.detail-edition__availability { margin: 10px 0 0; color: #cfb28c; font: 13px/1.3 'Roboto Mono', monospace; }
+.detail-skeleton__gallery { width: 100%; min-height: 520px; border-radius: 12px; }
+.detail-skeleton__info { display: grid; align-content: start; gap: 18px; }
+.detail-zoom img { width: 100%; height: auto; border-radius: 12px; }
+
+/* ---------- Carrinho ---------- */
+.cart-skeleton__row { height: 120px; border-radius: 14px; }
+.cart-summary--loading { gap: 16px; }
+.cart-summary__fees { margin: 0; }
+.cart-summary__fees dt, .cart-summary__fees dd { margin: 0; }
+.cart-summary__applied { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 40px; padding: 8px 12px; border: 1px dashed #d28a4c; border-radius: 6px; color: #f5f1eb; font: 14px/1.3 'Roboto Mono', monospace; }
+.cart-summary__applied b { color: #e89b55; }
+.cart-summary__applied button { display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0; color: #e89b55; background: none; font: inherit; text-decoration: underline; }
+.cart-summary__error { display: flex; align-items: center; gap: 6px; margin: 0; color: #ffb4a1 !important; font: 12px/1.3 'Roboto Mono', monospace; }
+.cart-table__item.has-issue { outline: 1px solid #f0805f; }
+.cart-table__issue { display: flex; align-items: center; gap: 6px; margin: 6px 0 0; color: #ffb4a1; font: 12px/1.3 'Roboto Mono', monospace; grid-column: 1 / -1; }
+.cart-table__product h2 a:hover { color: #e89b55; }
+
+/* ---------- Pedido ---------- */
+.order-pending__spinner { color: #e89b55; animation: order-spin 1s linear infinite; }
+.order-pending__connection { display: inline-flex; align-items: center; gap: 6px; color: #ffb4a1 !important; }
+@keyframes order-spin { to { transform: rotate(360deg); } }
+.order-confirmation__meta { margin: 0; }
+.order-confirmation__meta dd { margin: 0; }
+.order-confirmation__items { margin: 0; padding: 0; list-style: none; }
+.order-confirmation__explorer { display: grid; gap: 8px; width: 100%; margin: 12px 0 0; padding: 12px; border: 1px solid #55321f; border-radius: 8px; font: 12px/1.4 'Roboto Mono', monospace; text-align: left; word-break: break-all; }
+.order-confirmation__explorer div { display: grid; grid-template-columns: 80px 1fr; gap: 8px; }
+.order-confirmation__explorer dt { color: #cfb28c; }
+.order-confirmation__explorer dd { margin: 0; color: #f5f1eb; }
+
+/* ---------- Autenticação ---------- */
+.auth-modal--dialog { position: fixed; top: 50%; left: 50%; max-height: calc(100vh - 32px); transform: translate(-50%, -50%); }
+.auth-page { display: grid; place-items: center; padding: 32px 0; }
+.auth-page__card { min-height: 0; padding-bottom: 32px; }
+.auth-page__card > .flex { width: min(340px, calc(100% - 64px)); margin: 24px auto 0; }
+.auth-modal .flex[role="status"], .auth-modal .flex[role="alert"] { text-align: left; }
+
+/* ---------- Favoritos ---------- */
+.favorites-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+.favorites-grid li { display: grid; gap: 8px; }
+.favorites-grid__remove { display: inline-flex; align-items: center; gap: 6px; justify-self: start; padding: 0; border: 0; color: #e89b55; background: none; font: 13px 'Roboto Mono', monospace; }
+
+/* Faixa entre tablet e o frame desktop (901–1247 px): as colunas fixas do Figma passam a ser fluidas
+   para não gerar overflow horizontal. */
+@media (min-width: 901px) and (max-width: 1247px) {
+  .cart-body { grid-template-columns: minmax(0, 1fr) 300px; gap: 32px; }
+  .cart-table, .cart-table__item { width: 100%; }
+  .cart-table__header, .cart-table__item { grid-template-columns: minmax(0, 1fr) 77px 75px 87px 24px; column-gap: 20px; }
+  .cart-summary { width: 300px; }
+  .checkout-layout { grid-template-columns: minmax(0, 1fr) 360px; }
+  .checkout-summary { width: 360px; }
+  .checkout-note { width: min(350px, 100%); }
+  .detail-product { grid-template-columns: minmax(0, 520px) minmax(0, 1fr); }
+  .detail-gallery { width: 100%; grid-template-columns: 88px minmax(0, 1fr); }
+  .detail-gallery__main img { width: 100%; height: auto; aspect-ratio: 1; }
+}
+
+@media (max-width: 600px) {
+  .checkout-review__actions { flex-direction: column-reverse; }
+  .checkout-review__actions > button { width: 100%; }
+  .auth-modal--dialog { width: calc(100vw - 32px); }
+  .detail-skeleton__gallery { min-height: 360px; }
+}
+
+/* ---------- Navegação da conta (mobile) ---------- */
+.account-mobile-nav { display: none; }
+@media (max-width: 600px) {
+  .account-mobile-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+  .account-mobile-nav a, .account-mobile-nav button { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border: 1px solid #3f2319; border-radius: 999px; color: #cfb28c; background: transparent; font: 13px 'Roboto Mono', monospace; }
+  .account-mobile-nav a.is-active { border-color: #d28a4c; color: #e89b55; }
+  .account-mobile-nav button { margin-left: auto; color: #e89b55; font-weight: 700; }
+}
+
+/* ---------- Ordenação no drawer (mobile) ---------- */
+.mobile-sort { padding: 20px 20px 0; }
+.mobile-sort h2 { margin: 0 0 12px; color: #f5f1eb; font: 700 15px 'Roboto Mono', monospace; }
+.mobile-sort > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.mobile-sort button { min-height: 36px; padding: 0 12px; border: 1px solid #3f2319; border-radius: 999px; color: #cfb28c; background: transparent; font: 13px 'Roboto Mono', monospace; }
+.mobile-sort button.is-active { border-color: #d28a4c; color: #e89b55; }
+
+/* Linha "Taxa de rede" do resumo do checkout: a regra flex das linhas não deve achatar o bloco. */
+.checkout-summary__totals > .checkout-summary__network { display: grid; grid-template-columns: 1fr; gap: 0; }
+.checkout-other-wallet { display: block !important; }
+
+/* ---------- Rodapé ---------- */
+.footer-links .footer-unavailable { display: block; margin-bottom: 7px; color: #b39463; font-size: 11px; }
+.footer-social a { margin-bottom: 0; }
+.newsletter__feedback { color: #f5e3cc !important; }
+.newsletter__feedback[role="alert"] { color: #ffb4a1 !important; }
+
+/* Alvos de toque de pelo menos 24 px nos links do rodapé (WCAG 2.5.8). */
+.footer-links a, .footer-links .footer-unavailable { display: flex; align-items: center; min-height: 24px; margin-bottom: 2px; }
+#conteudo:focus { outline: none; }
+
+.hero__feature picture { display: block; width: 100%; height: 100%; }

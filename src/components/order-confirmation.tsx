@@ -1,30 +1,18 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { PackageCheck, X } from "lucide-react";
 import { Button } from "./ui/button";
-import { eth, type Order } from "../domain";
+import { eth, shortAddress, type Order } from "../domain";
 
-export type OrderConfirmationItem = {
-  id: string;
-  image: string;
-  name: string;
-  token: string;
-  quantity: number;
-  total: string;
-};
-
-export function OrderConfirmation({
-  order,
-  items,
-}: {
-  order: Order;
-  items: OrderConfirmationItem[];
-}) {
+/** Recibo: reproduz exclusivamente o snapshot gravado no pedido (preços, itens, taxas e carteira). */
+export function OrderConfirmation({ order }: { order: Order }) {
+  const [explorerOpen, setExplorerOpen] = useState(false);
   const date = new Intl.DateTimeFormat("pt-BR", {
     day: "2-digit",
     month: "short",
     year: "numeric",
   }).format(new Date(order.createdAt));
-  const transaction = order.transactionId;
+  const transaction = order.transactionHash;
   const shortTransaction = `${transaction.slice(0, 6)}…${transaction.slice(-4)}`;
 
   return (
@@ -37,53 +25,69 @@ export function OrderConfirmation({
         <h1 id="order-title">Seus NFTs agora estão na sua carteira</h1>
       </header>
 
-      <div className="order-confirmation__meta" aria-label="Metadados da transação">
+      <dl className="order-confirmation__meta" aria-label="Metadados da transação">
         <div>
-          <span>ID da transação</span>
-          <b>{shortTransaction}</b>
+          <dt>ID da transação</dt>
+          <dd>
+            <b title={transaction}>{shortTransaction}</b>
+          </dd>
         </div>
         <i aria-hidden="true" />
         <div>
-          <span>Data</span>
-          <b>{date}</b>
+          <dt>Data</dt>
+          <dd>
+            <b>{date}</b>
+          </dd>
         </div>
         <i aria-hidden="true" />
         <div>
-          <span>Total</span>
-          <b>{eth(order.quote.total)}</b>
+          <dt>Total</dt>
+          <dd>
+            <b>{eth(order.quote.total)}</b>
+          </dd>
         </div>
         <i aria-hidden="true" />
         <div>
-          <span>Carteira</span>
-          <b>MetaMask</b>
+          <dt>Carteira</dt>
+          <dd>
+            <b>{order.wallet.walletType}</b>
+          </dd>
         </div>
-      </div>
+      </dl>
 
       <div className="order-confirmation__details">
         <h2>Detalhes da transação</h2>
-        <div className="order-confirmation__table-head">
+        <div className="order-confirmation__table-head" aria-hidden="true">
           <span>NFTs</span>
           <span>Edições</span>
           <span>Subtotal</span>
         </div>
-        <div className="order-confirmation__items">
-          {items.map((item) => (
-            <article key={item.id}>
+        <ul className="order-confirmation__items">
+          {order.items.map((item) => (
+            <li key={`${item.nftId}:${item.edition}`}>
               <div>
                 <img src={`/assets/figma/${item.image}`} alt="" />
                 <p>
                   <b>
                     {item.name} {item.token}
                   </b>
-                  <span>ID do token: {item.token.replace("#", "#0")}</span>
+                  <span>
+                    Edição {item.edition} · {eth(item.unitPrice)} cada
+                  </span>
                 </p>
               </div>
-              <span>(x {item.quantity})</span>
-              <strong>{eth(item.total)}</strong>
-            </article>
+              <span aria-label={`${item.quantity} unidade(s)`}>(x {item.quantity})</span>
+              <strong>{eth(item.lineTotal)}</strong>
+            </li>
           ))}
-        </div>
+        </ul>
         <div className="order-confirmation__totals">
+          {order.quote.discount !== "0.00" && (
+            <div>
+              <span>Desconto{order.quote.coupon ? ` (${order.quote.coupon})` : ""}</span>
+              <b>- {eth(order.quote.discount)}</b>
+            </div>
+          )}
           <div>
             <span>Taxa de rede</span>
             <b>{eth(order.quote.networkFee)}</b>
@@ -97,18 +101,32 @@ export function OrderConfirmation({
 
       <footer className="order-confirmation__footer">
         <p>
-          Transação confirmada na Ethereum. A propriedade foi transferida para
-          sua carteira conectada e registrada na rede.
+          Transação confirmada na {order.network} (simulação). A propriedade foi transferida para a carteira{" "}
+          {order.wallet.label} ({shortAddress(order.wallet.address)}).
         </p>
-        <Button asChild>
-          <a
-            href={`https://etherscan.io/tx/${transaction}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Ver no Etherscan
-          </a>
+        <Button type="button" aria-expanded={explorerOpen} aria-controls="order-explorer" onClick={() => setExplorerOpen((open) => !open)}>
+          {explorerOpen ? "Ocultar explorador simulado" : "Ver no explorador (simulado)"}
         </Button>
+        {explorerOpen && (
+          <dl id="order-explorer" className="order-confirmation__explorer">
+            <div>
+              <dt>Hash</dt>
+              <dd>{transaction}</dd>
+            </div>
+            <div>
+              <dt>Rede</dt>
+              <dd>{order.network} (ambiente simulado, sem registro em blockchain real)</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>Confirmada</dd>
+            </div>
+            <div>
+              <dt>Pedido</dt>
+              <dd>{order.id}</dd>
+            </div>
+          </dl>
+        )}
       </footer>
     </section>
   );

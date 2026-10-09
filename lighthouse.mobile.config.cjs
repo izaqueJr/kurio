@@ -1,3 +1,4 @@
+// Perfil mobile padrão do Lighthouse (Moto G Power, "slow 4G" simulado, CPU 4x), viewport de 390 px.
 module.exports = {
   extends: 'lighthouse:default',
   settings: {

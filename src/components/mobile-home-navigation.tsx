@@ -1,17 +1,11 @@
 import { Heart, House, ScanLine, ShoppingCart, UserRound } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../api/client";
-import type { User } from "../domain";
+import { useViewer } from "../api/queries";
 import { useAuthModal } from "./auth-modal";
 
 export function MobileHomeNavigation() {
   const { openAuth } = useAuthModal();
-  const { data: session } = useQuery({
-    queryKey: ["session"],
-    queryFn: async () => (await api.get<User>("/session")).data,
-    retry: false,
-  });
+  const { user: session } = useViewer();
 
   return (
     <nav className="mobile-home-navigation" aria-label="Navegação principal">
@@ -26,7 +20,7 @@ export function MobileHomeNavigation() {
       <Link to="/" hash="inicio" aria-label="Início" className="mobile-home-navigation__item mobile-home-navigation__item--home is-active">
         <House size={20} fill="currentColor" />
       </Link>
-      <Link to="/" hash="mercado" aria-label="Favoritos" className="mobile-home-navigation__item mobile-home-navigation__item--favorites">
+      <Link to="/favoritos" aria-label="Favoritos" className="mobile-home-navigation__item mobile-home-navigation__item--favorites">
         <Heart size={20} fill="currentColor" />
       </Link>
       <Link

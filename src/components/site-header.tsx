@@ -1,8 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { api } from "../api/client";
-import { type Cart, type User } from "../domain";
+import { useCart, useViewer } from "../api/queries";
 import { SearchAutocomplete } from "../features/marketplace/search-autocomplete";
 import { FigmaIcon } from "../features/marketplace/components";
 import { cn } from "../lib/utils";
@@ -32,15 +30,9 @@ export function SiteHeader({
   const [queryText, setQueryText] = useState("");
   const navigate = useNavigate();
   const { openAuth } = useAuthModal();
-  const { data: session } = useQuery({
-    queryKey: ["session"],
-    queryFn: async () => (await api.get<User>("/session")).data,
-    retry: false,
-  });
-  const { data: cart } = useQuery({
-    queryKey: ["cart"],
-    queryFn: async () => (await api.get<Cart>("/cart")).data,
-  });
+  const { user: session, owner, isPending } = useViewer();
+  const { data: cart } = useCart(owner, { enabled: !isPending });
+  const cartCount = cart?.lines.reduce((total, line) => total + line.quantity, 0) ?? 0;
 
   const closeSearch = () => {
     setSearchOpen(false);
@@ -114,12 +106,14 @@ export function SiteHeader({
         >
           <FigmaIcon name="search.svg" />
         </button>
-        <Link to="/cart" aria-label="Carrinho" className="icon-button cart-icon">
+        <Link
+          to="/cart"
+          aria-label={`Carrinho com ${cartCount} ${cartCount === 1 ? "item" : "itens"}`}
+          className="icon-button cart-icon"
+        >
           <FigmaIcon name="cart.svg" />
           <FigmaIcon name="badge.svg" />
-          <span>
-            {cart?.items.reduce((total, item) => total + item.quantity, 0) ?? 0}
-          </span>
+          <span aria-hidden="true">{cartCount}</span>
         </Link>
         {session ? (
           <Button asChild size="sm" className="login">

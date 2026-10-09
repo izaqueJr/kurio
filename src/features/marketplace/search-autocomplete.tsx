@@ -1,11 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { api } from "../../api/client";
-import type { Nft } from "../../domain";
+import { useNfts } from "../../api/queries";
+import { eth } from "../../domain";
 
-type SearchResponse = {
-  items: Nft[];
-};
+function useDebouncedValue<T>(value: T, delay = 250) {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setDebounced(value), delay);
+    return () => window.clearTimeout(timer);
+  }, [value, delay]);
+  return debounced;
+}
 
 export function SearchAutocomplete({
   query,
@@ -14,32 +19,30 @@ export function SearchAutocomplete({
   query: string;
   onSelect: () => void;
 }) {
-  const normalizedQuery = query.trim();
-  const suggestions = useQuery({
-    queryKey: ["nft-search-suggestions", normalizedQuery],
-    enabled: normalizedQuery.length >= 2,
-    queryFn: async () =>
-      (
-        await api.get<SearchResponse>("/nfts", {
-          params: { q: normalizedQuery, page: 1, sort: "recent" },
-        })
-      ).data,
-  });
+  const normalizedQuery = useDebouncedValue(query.trim());
+  const enabled = normalizedQuery.length >= 2;
+  const suggestions = useNfts(
+    { q: normalizedQuery, page: 1, pageSize: 4, sort: "recent" },
+    { enabled },
+  );
 
-  if (normalizedQuery.length < 2) return null;
+  if (query.trim().length < 2) return null;
 
   return (
     <div className="header-autocomplete" role="status" aria-live="polite">
-      {suggestions.isPending ? (
+      {!enabled || suggestions.isPending ? (
         <p>Buscando NFTs…</p>
+      ) : suggestions.isError ? (
+        <p>Não foi possível buscar agora. Tente novamente.</p>
       ) : suggestions.data?.items.length ? (
         <div role="listbox" aria-label="Sugestões de NFTs">
-          {suggestions.data.items.slice(0, 4).map((nft) => (
+          {suggestions.data.items.map((nft) => (
             <Link
               key={nft.id}
               to="/nft/$nftId"
               params={{ nftId: nft.id }}
               role="option"
+              aria-selected={false}
               aria-label={`Abrir ${nft.name} ${nft.token}`}
               className="header-autocomplete__item"
               onClick={onSelect}
@@ -51,7 +54,7 @@ export function SearchAutocomplete({
                 </b>
                 <small>{nft.collection}</small>
               </span>
-              <strong>{Number(nft.price).toFixed(2)} ETH</strong>
+              <strong>{eth(nft.price)}</strong>
             </Link>
           ))}
         </div>
