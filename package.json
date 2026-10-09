@@ -1,0 +1,58 @@
+{
+  "name": "kurio-home",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "typecheck": "tsc -b",
+    "test:e2e": "playwright test",
+    "test:e2e:update": "playwright test --update-snapshots",
+    "audit": "node scripts/audit.mjs",
+    "audit:desktop": "lighthouse http://127.0.0.1:4173 --config-path=./lighthouse.config.cjs --output=html --output=json --output-path=./output/lighthouse/desktop-home --chrome-flags=\"--headless=new\"",
+    "audit:mobile": "lighthouse http://127.0.0.1:4173 --config-path=./lighthouse.mobile.config.cjs --output=html --output=json --output-path=./output/lighthouse/mobile-home --chrome-flags=\"--headless=new\""
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.9.1",
+    "@mswjs/socket.io-binding": "^0.2.0",
+    "@radix-ui/react-slot": "^1.2.0",
+    "@tanstack/react-query": "^5.104.1",
+    "@tanstack/react-router": "^1.170.41",
+    "axios": "^1.20.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
+    "msw": "2.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.89.0",
+    "socket.io-client": "^4.8.4",
+    "tailwind-merge": "^2.5.5",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^10.12.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "lighthouse": "^13.5.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.71.1",
+    "vite": "^6.0.5"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}
