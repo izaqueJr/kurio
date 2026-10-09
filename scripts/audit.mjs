@@ -1,6 +1,6 @@
 // Auditoria Lighthouse: início e detalhe do NFT, perfis mobile e desktop, 3 execuções cada.
 // Usa o build otimizado (vite build + preview) com o cenário padrão dos mocks.
-// Saída em reports/lighthouse/: HTML + JSON por execução (ignorados pelo git) e summary.json/SUMMARY.md (versionados).
+// Saída em reports/lighthouse/: HTML + JSON por execução, summary.json e SUMMARY.md (todos versionados).
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { spawn, execSync } from 'node:child_process'
 import os from 'node:os'
@@ -126,7 +126,7 @@ Metas: Performance ≥ ${targets.performance}, Accessibility ≥ ${targets.acces
 - CPU: ${environment.cpu}
 - Condições: ${environment.conditions}
 
-Relatórios individuais (`<perfil>-<página>-<execução>.report.html` / `.report.json`) são gerados nesta pasta por `npm run audit` e não são versionados.
+Relatórios individuais (\`<perfil>-<página>-<execução>.report.html\` / \`.report.json\`) são gerados nesta pasta por \`npm run audit\` e versionados junto com este resumo.
 `
 await writeFile(`${output}/SUMMARY.md`, markdown)
 console.log(markdown)

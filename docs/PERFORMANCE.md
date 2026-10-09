@@ -5,14 +5,15 @@ execuções por página e perfil; HTML/JSON de cada execução na mesma pasta). 
 
 | Página / perfil | Performance | Accessibility | Best Practices | SEO | LCP | CLS | TBT |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| desktop · início | 100 | 96 | 100 | 100 | 0,79 s | 0 | 0 ms |
-| desktop · detalhe | 99 | 97 | 100 | 100 | 0,76 s | 0,047 | 0 ms |
-| mobile · início | 88 | 100 | 100 | 100 | 3,49 s | 0 | 35 ms |
-| mobile · detalhe | 88 | 97 | 100 | 100 | 3,47 s | 0 | 26 ms |
+| desktop · início | 100 | 96 | 100 | 100 | 0,80 s | 0,001 | 0 ms |
+| desktop · detalhe | 99 | 97 | 100 | 100 | 0,82 s | 0,047 | 0 ms |
+| mobile · início | 88 | 100 | 100 | 100 | 3,51 s | 0 | 39 ms |
+| mobile · detalhe | 85 | 97 | 100 | 100 | 3,73 s | 0 | 48 ms |
 
-Todas as categorias atingem a meta, exceto **Performance no perfil mobile (88 contra 90)**.
+Todas as categorias atingem a meta na medição local, exceto **Performance no perfil mobile (85–88 contra 90)**.
+Em produção o PageSpeed Insights mede **93** no mobile (ver abaixo).
 
-## Por que o mobile fica em 88
+## Por que o mobile local fica em 85–88
 
 O perfil mobile do Lighthouse simula um Moto G Power em "slow 4G": 150 ms de RTT, **~560 ms de latência por
 requisição**, 1,6 Mbps e CPU 4× mais lenta. A aplicação é renderizada só no cliente (SPA, sem SSR): o HTML chega
@@ -24,6 +25,17 @@ faixa ótima — a nota é limitada pelo tempo até a primeira renderização, n
 A única forma de fechar a diferença seria **pré-renderizar o HTML** (SSG/SSR) da página inicial e do detalhe, o que
 muda a arquitetura de build (Vite SPA). Ficou registrado como próximo passo; não foi adotada nenhuma otimização
 exclusiva para a auditoria.
+
+## Medição em produção (PageSpeed Insights)
+
+No deploy público (`https://kurio.izaque.dev/`, CDN da Vercel com HTTP/2, compressão e cache imutável dos
+assets), o PageSpeed Insights no perfil **celular** registrou **Desempenho 93**, Acessibilidade 100, Práticas
+recomendadas 96 e SEO 100 (FCP 2,2 s, LCP 2,9 s). É o mesmo build e o mesmo
+cenário de mocks; a diferença em relação à medição local vem do ambiente de laboratório (máquina e calibração de CPU
+dos servidores do PageSpeed, servidor HTTP/2 da Vercel em vez do `vite preview`). Como o FCP/LCP está próximo do
+limiar da nota 90, pequenas variações de ambiente mudam o resultado. A mediana local continua sendo o número
+reproduzível reportado em `SUMMARY.md`; a medição de produção mostra que a meta é atingida no ambiente publicado,
+sem otimizações exclusivas para a auditoria.
 
 ## O que foi feito
 

@@ -11,6 +11,3 @@ playwright-report/
 .env.*
 !.env.example
 .vercel
-
-# Relatórios brutos do Lighthouse (gerados por npm run audit); SUMMARY.md e summary.json ficam versionados
-reports/lighthouse/*.report.*
