@@ -109,7 +109,7 @@ checkout pedem login (`demo@kurio.test` / `123456`) e um item no carrinho. Local
 | `offline` | https://kurio.izaque.dev/nft/sage-009?scenario=offline | "Sem conexão com o servidor" com "Tentar novamente" |
 | `server-error` | https://kurio.izaque.dev/?scenario=server-error | HTTP 500 após as novas tentativas automáticas (~15 s) |
 | `empty` | https://kurio.izaque.dev/?scenario=empty | Catálogo vazio com opção de limpar filtros |
-| `session-expired` | https://kurio.izaque.dev/account?scenario=session-expired | Com login feito, a sessão expira e o app pede novo login, voltando à tela anterior |
+| `session-expired` | https://kurio.izaque.dev/perfil?scenario=session-expired | Com login feito, a sessão expira e o app pede novo login, voltando à tela anterior |
 | `price-changed` | https://kurio.izaque.dev/checkout?scenario=price-changed | Ao confirmar, o preço muda e exige nova confirmação |
 | `sold-out` | https://kurio.izaque.dev/checkout?scenario=sold-out | Ao confirmar, a edição esgota; a compra é bloqueada e o carrinho preservado |
 | `order-timeout` | https://kurio.izaque.dev/checkout?scenario=order-timeout | A resposta excede o timeout; o app reenvia e recupera o mesmo pedido |
@@ -141,6 +141,8 @@ funcionam no ambiente publicado. `vercel.json` (Vercel) e `public/_redirects` (N
 as rotas para `index.html`, permitindo acesso direto e refresh em qualquer rota.
 
 **URL pública:** https://kurio.izaque.dev/
+
+**Repositório:** https://github.com/izaqueJr/kurio
 
 ## Documentação
 
