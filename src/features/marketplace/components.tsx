@@ -197,8 +197,11 @@ export function FilterPanel({
 
 export function MobileMarketControls({
   onOpenFilters,
+  activeFilterCount = 0,
 }: {
   onOpenFilters: () => void;
+  /** Quantos filtros/ordenação estão aplicados; destaca o gatilho para dar feedback no mobile. */
+  activeFilterCount?: number;
 }) {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -228,12 +231,21 @@ export function MobileMarketControls({
         type="button"
         size="sm"
         variant="outline"
-        className="mobile-filter-trigger"
-        aria-label="Abrir filtros"
+        className={cn("mobile-filter-trigger", activeFilterCount > 0 && "has-active-filters")}
+        aria-label={
+          activeFilterCount > 0
+            ? `Abrir filtros (${activeFilterCount} ${activeFilterCount === 1 ? "aplicado" : "aplicados"})`
+            : "Abrir filtros"
+        }
         onClick={onOpenFilters}
       >
         <SlidersHorizontal size={15} aria-hidden="true" />
         <span>Filtros</span>
+        {activeFilterCount > 0 && (
+          <b className="mobile-filter-trigger__badge" aria-hidden="true">
+            {activeFilterCount}
+          </b>
+        )}
       </Button>
     </div>
   );

@@ -211,3 +211,10 @@
 @media (max-width: 900px) {
   .page-shell { padding-bottom: 126px; }
 }
+
+/* NFT em destaque (sidebar desktop): o card inteiro leva à página do NFT. */
+.featured-nft__link { display: block; color: inherit; text-decoration: none; }
+.featured-nft__link img { transition: transform .3s ease; }
+.featured-nft__link:hover img { transform: scale(1.03); }
+.featured-nft__link:focus-visible { outline: 2px solid #e89b55; outline-offset: -2px; }
+@media (prefers-reduced-motion: reduce) { .featured-nft__link img { transition: none; } }

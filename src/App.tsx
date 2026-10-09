@@ -92,6 +92,13 @@ function App() {
   const hasFilters = Boolean(
     search.q || search.category || search.network || search.min !== undefined || search.max !== undefined,
   );
+  // Badge do gatilho mobile: categoria, rede, faixa de preço e ordenação fora do padrão.
+  const activeFilterCount = [
+    search.category,
+    search.network,
+    search.min !== undefined || search.max !== undefined ? "price" : undefined,
+    activeSort !== "recent" ? activeSort : undefined,
+  ].filter(Boolean).length;
   const resultsLabel = nftQuery.data
     ? `${nftQuery.data.total} ${nftQuery.data.total === 1 ? "NFT encontrado" : "NFTs encontrados"}${search.q ? ` para "${search.q}"` : ""}, página ${activePage} de ${totalPages}.`
     : "";
@@ -125,7 +132,10 @@ function App() {
   return (
     <div className="page-shell">
       <SiteHeader showDivider />
-      <MobileMarketControls onOpenFilters={() => setFiltersOpen(true)} />
+      <MobileMarketControls
+        onOpenFilters={() => setFiltersOpen(true)}
+        activeFilterCount={activeFilterCount}
+      />
       <main id="inicio">
         <span id="conteudo" tabIndex={-1} />
         <section className="hero">
@@ -193,13 +203,15 @@ function App() {
               onPriceApply={(minimum, maximum) => updateSearch({ min: minimum, max: maximum })}
             />
             <article className="featured-nft">
-              <p>NFT EM DESTAQUE</p>
-              <h2>OFERTA LIMITADA</h2>
-              <img
-                src={`${ASSETS}/ape-purple.webp`}
-                alt="Cosmic Bloom, NFT em destaque"
-                loading="lazy" decoding="async" {...{ fetchpriority: "low" }}
-              />
+              <Link to="/nft/$nftId" params={{ nftId: "cosmic-118" }} className="featured-nft__link">
+                <p>NFT EM DESTAQUE</p>
+                <h2>OFERTA LIMITADA</h2>
+                <img
+                  src={`${ASSETS}/ape-purple.webp`}
+                  alt="Cosmic Bloom, NFT em destaque"
+                  loading="lazy" decoding="async" {...{ fetchpriority: "low" }}
+                />
+              </Link>
             </article>
           </div>
           <MobileFilterDialog open={filtersOpen} onOpenChange={setFiltersOpen}>
@@ -216,7 +228,10 @@ function App() {
                 updateSearch({ category });
                 setFiltersOpen(false);
               }}
-              onNetworkChange={(network) => updateSearch({ network })}
+              onNetworkChange={(network) => {
+                updateSearch({ network });
+                setFiltersOpen(false);
+              }}
               onPriceApply={(minimum, maximum) => {
                 updateSearch({ min: minimum, max: maximum });
                 setFiltersOpen(false);
