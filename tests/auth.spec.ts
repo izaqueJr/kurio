@@ -1,4 +1,4 @@
-import { addToCart, expect, login, open, setScenario, test, USERS } from './support'
+import { addToCart, expect, login, noHorizontalOverflow, open, setScenario, test, USERS } from './support'
 
 test.describe('conta e sessão', () => {
   test('cadastro valida campos e trata conflito de e-mail', async ({ page }) => {
@@ -121,4 +121,17 @@ test.describe('conta e sessão', () => {
     await expect(page.getByRole('link', { name: 'Cosmic Bloom #118', exact: true })).toBeVisible()
     await expect(page.getByRole('link', { name: 'Continuar para pagamento' })).toContainText('Finalizar pedido')
   })
+})
+
+test('avisos de login social e erros não geram overflow horizontal no modal', async ({ page }) => {
+  await open(page, '/login')
+  await page.getByLabel('E-mail de acesso').fill(USERS.demo.email)
+  await page.getByLabel('Senha de acesso').fill('senha-errada')
+  await page.getByRole('tabpanel').getByRole('button', { name: 'Entrar' }).click()
+  await expect(page.getByText('E-mail ou senha inválidos.')).toBeVisible()
+  await page.getByRole('button', { name: 'Continuar com Google' }).click()
+  await expect(page.getByText('O login com Google não está disponível nesta demonstração.')).toBeVisible()
+  await noHorizontalOverflow(page)
+  const [scrollWidth, clientWidth] = await page.locator('.auth-modal').evaluate((node) => [node.scrollWidth, node.clientWidth])
+  expect(scrollWidth).toBeLessThanOrEqual(clientWidth)
 })

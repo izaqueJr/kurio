@@ -78,7 +78,9 @@ try {
     }
   }
 } finally {
-  preview.kill()
+  // No Windows o processo sobe via shell: é preciso encerrar a árvore inteira para liberar a porta.
+  if (process.platform === 'win32') execSync(`taskkill /pid ${preview.pid} /T /F`, { stdio: 'ignore' })
+  else preview.kill()
 }
 
 const median = (values) => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)]
