@@ -108,7 +108,7 @@ O build é estático (`dist/`) e inclui o worker do MSW (`public/mockServiceWork
 funcionam no ambiente publicado. `vercel.json` (Vercel) e `public/_redirects` (Netlify/Cloudflare Pages) reescrevem
 as rotas para `index.html`, permitindo acesso direto e refresh em qualquer rota.
 
-**URL pública:** _(preencher após o deploy)_
+**URL pública:** https://kurio.izaque.dev/
 
 ## Documentação
 
