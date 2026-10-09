@@ -94,3 +94,21 @@ test.describe('catálogo', () => {
     }
   })
 })
+
+test('menu do cabeçalho marca apenas a seção da URL atual', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'No mobile o menu fica recolhido.')
+  const nav = page.locator('.site-nav')
+  const current = nav.locator('a.is-current')
+  await open(page, '/')
+  await expect(current).toHaveText('Início')
+  await expect(nav.locator('[aria-current]')).toHaveCount(1)
+  await nav.getByRole('link', { name: 'Mercado', exact: true }).click()
+  await expect(page).toHaveURL(/#mercado$/)
+  await expect(current).toHaveText('Mercado')
+  await expect(nav.getByRole('link', { name: 'Mercado', exact: true })).toHaveAttribute('aria-current', 'page')
+  for (const path of ['/nft/sage-009', '/cart', '/login']) {
+    await open(page, path)
+    await expect(page.locator('main').first()).toBeVisible()
+    await expect(current).toHaveCount(0)
+  }
+})

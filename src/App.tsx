@@ -124,7 +124,7 @@ function App() {
   };
   return (
     <div className="page-shell">
-      <SiteHeader currentSection="Início" showDivider />
+      <SiteHeader showDivider />
       <MobileMarketControls onOpenFilters={() => setFiltersOpen(true)} />
       <main id="inicio">
         <span id="conteudo" tabIndex={-1} />

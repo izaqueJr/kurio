@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Button } from './ui/button'
 
@@ -17,6 +17,42 @@ function Unavailable({ children }: { children: string }) {
   )
 }
 
+const MOBILE_QUERY = '(max-width: 600px)'
+
+function useIsMobile() {
+  const [mobile, setMobile] = useState(() => typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches)
+  useEffect(() => {
+    const media = window.matchMedia(MOBILE_QUERY)
+    const update = () => setMobile(media.matches)
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
+  return mobile
+}
+
+/**
+ * Grupo de links do rodapé: no desktop é uma coluna aberta (como no Figma); no mobile vira um
+ * acordeão nativo (<details>/<summary>), fechado por padrão, para o rodapé não ficar longo demais.
+ */
+function FooterGroup({ id, title, mobile, children }: { id: string; title: string; mobile: boolean; children: ReactNode }) {
+  if (!mobile) {
+    return (
+      <nav aria-labelledby={id}>
+        <h2 id={id}>{title}</h2>
+        {children}
+      </nav>
+    )
+  }
+  return (
+    <details className="footer-group">
+      <summary>
+        <h2 id={id}>{title}</h2>
+      </summary>
+      <nav aria-labelledby={id}>{children}</nav>
+    </details>
+  )
+}
+
 const socials = [
   { icon: 'social-facebook.svg', label: 'Facebook', href: 'https://www.facebook.com/' },
   { icon: 'social-instagram.svg', label: 'Instagram', href: 'https://www.instagram.com/' },
@@ -28,6 +64,7 @@ const socials = [
 const collections = ['Arte digital', 'Fotografia', 'Música', 'Arte 3D', 'Utilidade']
 
 export function SiteFooter() {
+  const mobile = useIsMobile()
   const [newsletter, setNewsletter] = useState<{ tone: 'error' | 'info'; message: string } | null>(null)
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -71,28 +108,25 @@ export function SiteFooter() {
         <a href="tel:+551140028922">+55 11 4002 8922</a>
       </section>
       <section className="footer-links">
-        <nav aria-labelledby="footer-profile">
-          <h2 id="footer-profile">Meu perfil</h2>
+        <FooterGroup id="footer-profile" title="Meu perfil" mobile={mobile}>
           <Link to="/perfil">Meu perfil</Link>
           <Link to="/carteiras">Minha coleção</Link>
           <Unavailable>Atividade</Unavailable>
           <Unavailable>Estúdio do criador</Unavailable>
           <Link to="/favoritos">Lista de interesse</Link>
-        </nav>
-        <nav aria-labelledby="footer-help">
-          <h2 id="footer-help">Central de ajuda</h2>
+        </FooterGroup>
+        <FooterGroup id="footer-help" title="Central de ajuda" mobile={mobile}>
           <Unavailable>Central de ajuda</Unavailable>
           <Unavailable>Como comprar NFTs</Unavailable>
           <Unavailable>Carteira e segurança</Unavailable>
           <Unavailable>Política do mercado</Unavailable>
           <Unavailable>Denunciar item</Unavailable>
-        </nav>
-        <nav aria-labelledby="footer-collections">
-          <h2 id="footer-collections">Coleções</h2>
+        </FooterGroup>
+        <FooterGroup id="footer-collections" title="Coleções" mobile={mobile}>
           {collections.map((category) => (
             <Link key={category} to="/" search={{ category }} hash="mercado">{category}</Link>
           ))}
-        </nav>
+        </FooterGroup>
         <div className="footer-social">
           <h2>Redes sociais</h2>
           <div>

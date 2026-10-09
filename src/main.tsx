@@ -7,7 +7,7 @@ import '@fontsource/roboto-mono/latin-500.css'
 import '@fontsource/roboto-mono/latin-700.css'
 import './index.css'
 import './styles/states.css'
-import { markTransportReady } from './api/transport'
+import { markTransportFailed, markTransportReady } from './api/transport'
 import { router } from './router'
 
 /** O MSW é ligado por configuração (`VITE_ENABLE_MOCKS`, padrão: ligado) e pode ser desligado com `?no-mocks`. */
@@ -27,7 +27,7 @@ function start() {
   }
   void import('./mocks/browser')
     .then(({ startMocks }) => startMocks())
-    .then(markTransportReady)
+    .then(markTransportReady, markTransportFailed)
 }
 
 start()

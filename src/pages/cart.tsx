@@ -14,6 +14,7 @@ import {
   useViewer,
 } from "../api/queries";
 import { toApiError } from "../api/client";
+import { ProductCarousel } from "../components/product-carousel";
 import { clearNotices, useRealtimeNotices } from "../lib/realtime-notices";
 import { eth, type Cart } from "../domain";
 
@@ -152,7 +153,18 @@ function CartSummaryPanel({ cart, owner, isAuthenticated }: { cart: Cart; owner:
   );
 }
 
-const RELATED_IDS = ["cosmic-118", "violet-314", "ivory-088", "golden-207", "golden-160"];
+const RELATED_IDS = [
+  "cosmic-118",
+  "violet-314",
+  "ivory-088",
+  "golden-207",
+  "golden-160",
+  "sage-009",
+  "neon-552",
+  "golden-195",
+  "kurio-edition-012",
+  "kurio-edition-025",
+];
 
 function CartRelatedProducts() {
   const related = useNfts({ ids: RELATED_IDS, pageSize: RELATED_IDS.length });
@@ -163,26 +175,7 @@ function CartRelatedProducts() {
         <h2 id="cart-related-title">Colecionadores também viram</h2>
         <hr />
       </div>
-      <div className="cart-related__grid">
-        {related.data.items.map((item) => (
-          <Link to="/nft/$nftId" params={{ nftId: item.id }} className="cart-related-card" key={item.id}>
-            <div className="cart-related-card__image">
-              <img src={`${ASSETS}/${item.image}`} alt={`${item.name} ${item.token}`} loading="lazy" decoding="async" {...{ fetchpriority: "low" }} />
-            </div>
-            <div>
-              <p>
-                {item.name} {item.token}
-              </p>
-              <strong>{eth(item.price)}</strong>
-            </div>
-          </Link>
-        ))}
-      </div>
-      <div className="cart-related__dots" aria-hidden="true">
-        <span />
-        <span className="is-active" />
-        <span />
-      </div>
+      <ProductCarousel items={related.data.items} prefix="cart-related" label="Colecionadores também viram" />
     </section>
   );
 }

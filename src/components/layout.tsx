@@ -11,7 +11,7 @@ import { toApiError } from "../api/client";
 export const ASSETS = "/assets/figma";
 
 export function DetailHeader() {
-  return <SiteHeader className="detail-header" currentSection="Mercado" />;
+  return <SiteHeader className="detail-header" />;
 }
 
 export function DetailLayout({ children }: { children: ReactNode }) {

@@ -96,3 +96,22 @@ test.describe('carregamento, falhas e recuperação', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Sage Nomad #009' })).toBeVisible()
   })
 })
+
+test('rodapé: grupos de links em acordeão no mobile e colunas abertas no desktop', async ({ page, isMobile }) => {
+  await open(page, '/nft/sage-009')
+  const footer = page.locator('footer')
+  const link = footer.getByRole('link', { name: 'Lista de interesse' })
+  if (!isMobile) {
+    await expect(link).toBeVisible()
+    await expect(footer.locator('details')).toHaveCount(0)
+    return
+  }
+  await expect(link).toBeHidden()
+  const summary = footer.locator('summary', { hasText: 'Meu perfil' })
+  await summary.focus()
+  await page.keyboard.press('Enter')
+  await expect(link).toBeVisible()
+  await expect(footer.getByRole('link', { name: 'Arte digital' })).toBeHidden()
+  await summary.click()
+  await expect(link).toBeHidden()
+})

@@ -129,6 +129,13 @@ As fixtures vivem apenas em `src/mocks/` e só são carregadas quando o MSW est�
   Favoritos, Sair).
 - **Larguras intermediárias (901–1247 px)**: as colunas fixas do carrinho, checkout e detalhe ficam fluidas para
   evitar overflow horizontal.
+- **Carrosséis de produtos** (detalhe e carrinho): Swiper com 5 itens no desktop, 3 no tablet e 2 no mobile,
+  arrastar com mouse/toque, setas do teclado e os mesmos dots do Figma. O carrinho mostra 10 sugestões para haver
+  paginação.
+- **Rodapé no mobile**: "Meu perfil", "Central de ajuda" e "Coleções" viram acordeões nativos (`<details>`), fechados
+  por padrão, para encurtar a página; no desktop as colunas seguem abertas como no Figma. A página reserva espaço para a
+  navegação inferior fixa não cobrir o fim do rodapé.
+- **Menu do cabeçalho**: só a seção da URL atual fica marcada (`/` + âncora); nas demais páginas nenhum item fica ativo.
 - **Edições indisponíveis** aparecem tracejadas/riscadas e desativadas; NFTs esgotados exibem selo "Esgotado".
 - **Estados não desenhados** (erro, vazio, pendente, recusado, 404, revisão do pedido, cupom aplicado, avisos de
   tempo real) seguem a paleta e a tipografia do Figma.

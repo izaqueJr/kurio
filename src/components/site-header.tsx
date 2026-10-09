@@ -1,13 +1,11 @@
 import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useCart, useViewer } from "../api/queries";
 import { SearchAutocomplete } from "../features/marketplace/search-autocomplete";
 import { FigmaIcon } from "../features/marketplace/components";
 import { cn } from "../lib/utils";
 import { useAuthModal } from "./auth-modal";
 import { Button } from "./ui/button";
-
-type HeaderSection = "Início" | "Mercado";
 
 const navigation = [
   { label: "Início", hash: "inicio" },
@@ -18,13 +16,14 @@ const navigation = [
 
 export function SiteHeader({
   className,
-  currentSection = "Mercado",
   showDivider = false,
 }: {
   className?: string;
-  currentSection?: HeaderSection;
   showDivider?: boolean;
 }) {
+  // O item ativo vem da URL: só as seções da página inicial ("/" + âncora) ficam marcadas.
+  const { pathname, hash: locationHash } = useRouterState({ select: (state) => state.location });
+  const currentHash = pathname === "/" ? locationHash.replace(/^#/, "") || "inicio" : undefined;
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [queryText, setQueryText] = useState("");
@@ -61,10 +60,13 @@ export function SiteHeader({
             to="/"
             hash={hash}
             onClick={() => setMenuOpen(false)}
-            className={label === currentSection ? "is-current" : undefined}
+            // Sem includeHash o roteador consideraria todas as âncoras de "/" ativas.
+            activeOptions={{ exact: true, includeHash: true }}
+            className={hash === currentHash ? "is-current" : undefined}
+            aria-current={hash === currentHash ? "page" : undefined}
           >
             {label}
-            {label === currentSection && <FigmaIcon name="nav-underline.svg" />}
+            {hash === currentHash && <FigmaIcon name="nav-underline.svg" />}
           </Link>
         ))}
         {session ? (

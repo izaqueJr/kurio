@@ -125,9 +125,12 @@
   .checkout-layout { grid-template-columns: minmax(0, 1fr) 360px; }
   .checkout-summary { width: 360px; }
   .checkout-note { width: min(350px, 100%); }
-  .detail-product { grid-template-columns: minmax(0, 520px) minmax(0, 1fr); }
-  .detail-gallery { width: 100%; grid-template-columns: 88px minmax(0, 1fr); }
-  .detail-gallery__main img { width: 100%; height: auto; aspect-ratio: 1; }
+  .detail-product { grid-template-columns: minmax(0, 480px) minmax(0, 1fr); }
+  .detail-gallery { width: 100%; height: auto; grid-template-columns: 80px minmax(0, 1fr); gap: 16px; }
+  .detail-gallery__thumbs { width: 80px; gap: 12px; }
+  .detail-gallery__thumbs button { width: 80px; height: 80px; }
+  .detail-gallery__main { width: 100%; height: auto; aspect-ratio: 1; }
+  .detail-gallery__main > img { width: 100%; height: 100%; }
 }
 
 @media (max-width: 600px) {
@@ -168,3 +171,43 @@
 #conteudo:focus { outline: none; }
 
 .hero__feature picture { display: block; width: 100%; height: 100%; }
+
+/* ---------- Carrossel de produtos (Swiper) ---------- */
+.product-carousel { margin-top: 32px; overflow: hidden; }
+.product-carousel .swiper-slide { height: auto; }
+.product-carousel .swiper-slide > a { display: block; user-select: none; -webkit-user-drag: none; }
+.product-carousel .swiper-slide > a:focus-visible { outline: 2px solid #e89b55; outline-offset: -2px; }
+.cart-related__dots button { width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%; background: #7d4e2d; }
+.cart-related__dots button.is-active { background: #d28a4c; }
+.cart-related__dots button:focus-visible, .detail-related__dots button:focus-visible { outline: 1px solid #f5f1eb; outline-offset: 3px; }
+@media (max-width: 600px) {
+  .product-carousel { margin-top: 20px; }
+  .cart-related-card__image, .detail-related-card__image { height: 210px; }
+}
+
+/* Cards do Diário: "Ler mais" sempre alinhado à base, independentemente do tamanho do título/texto. */
+.journal-card { display: flex; flex-direction: column; }
+.journal-card > div { display: flex; flex: 1; flex-direction: column; }
+.journal-card__more { align-self: flex-start; margin-top: auto; }
+
+/* ---------- Rodapé: acordeão no mobile ---------- */
+@media (max-width: 600px) {
+  .footer-links { gap: 0 !important; }
+  .footer-group { border-bottom: 1px solid #3f2319; }
+  .footer-group summary { display: flex; align-items: center; justify-content: space-between; min-height: 48px; cursor: pointer; list-style: none; }
+  .footer-group summary::-webkit-details-marker { display: none; }
+  .footer-group summary::after { content: ''; width: 8px; height: 8px; margin-right: 4px; border-right: 2px solid #e89b55; border-bottom: 2px solid #e89b55; transform: rotate(45deg) translateY(-2px); transition: transform .2s ease; }
+  .footer-group[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+  .footer-group summary h2 { margin: 0 !important; }
+  .footer-group summary:focus-visible { outline: 2px solid #e89b55; outline-offset: 2px; }
+  .footer-group nav { padding: 0 0 12px; }
+  .footer-links .footer-social { margin-top: 24px; }
+}
+@media (max-width: 600px) and (prefers-reduced-motion: reduce) {
+  .footer-group summary::after { transition: none; }
+}
+
+/* A navegação inferior fixa do mobile não pode cobrir o fim do rodapé. */
+@media (max-width: 900px) {
+  .page-shell { padding-bottom: 126px; }
+}

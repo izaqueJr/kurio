@@ -51,3 +51,42 @@ test.describe('detalhe do NFT', () => {
     await expect(page.getByText('Luna Matos')).toBeVisible()
   })
 })
+
+test.describe('carrossel de produtos (Swiper)', () => {
+  for (const { path, section } of [
+    { path: '/nft/emerald-042', section: '.detail-related' },
+    { path: '/cart', section: '.cart-related' },
+  ]) {
+    test(`exibe 5 itens no desktop e 2 no mobile, navega pelos dots e por arrasto em ${path}`, async ({ page, isMobile }) => {
+      await open(page, path)
+      const carousel = page.locator(`${section} .product-carousel`)
+      await carousel.scrollIntoViewIfNeeded()
+      await expect(carousel.locator('.swiper-slide').first()).toBeVisible()
+      const visible = await carousel.evaluate((node) => {
+        const box = node.getBoundingClientRect()
+        return [...node.querySelectorAll('.swiper-slide')].filter((slide) => {
+          const rect = slide.getBoundingClientRect()
+          return rect.left >= box.left - 1 && rect.right <= box.right + 1
+        }).length
+      })
+      expect(visible).toBe(isMobile ? 2 : 5)
+
+      const dots = page.locator(`${section}__dots button`)
+      await expect(dots.first()).toHaveAttribute('aria-current', 'true')
+      await dots.nth(1).click()
+      await expect(dots.nth(1)).toHaveAttribute('aria-current', 'true')
+      await dots.first().click()
+      await expect(dots.first()).toHaveAttribute('aria-current', 'true')
+
+      // Arrastar para a esquerda avança uma página sem abrir o produto sob o cursor.
+      const box = (await carousel.boundingBox())!
+      const y = box.y + box.height / 3
+      await page.mouse.move(box.x + box.width * 0.8, y)
+      await page.mouse.down()
+      for (let step = 1; step <= 12; step += 1) await page.mouse.move(box.x + box.width * (0.8 - step * 0.05), y)
+      await page.mouse.up()
+      await expect(dots.nth(1)).toHaveAttribute('aria-current', 'true')
+      await expect(page).toHaveURL(new RegExp(`${path}$`))
+    })
+  }
+})

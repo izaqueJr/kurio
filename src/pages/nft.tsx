@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useParams } from "@tanstack/react-router";
 import { ChevronLeft, Heart, Minus, Plus, Search, Share2, Star } from "lucide-react";
@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogTitle } from "../components/ui/dialog";
 import { ASSETS, DetailLayout, DetailSkeleton, ErrorState } from "../components/layout";
 import { useAuthModal } from "../components/auth-modal";
 import { NotFoundContent } from "./not-found";
+import { ProductCarousel } from "../components/product-carousel";
 import {
   nftQuery,
   useAddToCart,
@@ -147,72 +148,14 @@ function DetailTabs({ nft, edition }: { nft: Nft; edition: string }) {
 }
 
 function DetailRelatedCarousel({ items }: { items: Nft[] }) {
-  const pages = useMemo(() => {
-    const result: Nft[][] = [];
-    for (let index = 0; index < items.length; index += 5) result.push(items.slice(index, index + 5));
-    return result;
-  }, [items]);
-  const [page, setPage] = useState(0);
-  const activePage = Math.min(page, Math.max(pages.length - 1, 0));
-  if (!pages.length) return null;
-  const move = (direction: -1 | 1) => setPage((current) => (current + direction + pages.length) % pages.length);
+  if (!items.length) return null;
   return (
-    <section className="detail-related" aria-label="Mais desta coleção">
+    <section className="detail-related" aria-labelledby="detail-related-title">
       <div className="detail-related__heading">
-        <h2>Mais desta coleção</h2>
+        <h2 id="detail-related-title">Mais desta coleção</h2>
         <hr />
       </div>
-      <div
-        className="detail-related__viewport"
-        tabIndex={0}
-        role="region"
-        aria-roledescription="carrossel"
-        aria-label={`Página ${activePage + 1} de ${pages.length} da coleção`}
-        onKeyDown={(event) => {
-          if (event.key === "ArrowLeft") move(-1);
-          if (event.key === "ArrowRight") move(1);
-        }}
-      >
-        <div className="detail-related__track" style={{ transform: `translateX(-${(activePage * 100) / pages.length}%)` }}>
-          {pages.map((collectionPage, pageIndex) => (
-            <div className="detail-related__page" key={`collection-page-${pageIndex}`} aria-hidden={pageIndex !== activePage}>
-              {collectionPage.map((item) => (
-                <Link
-                  to="/nft/$nftId"
-                  params={{ nftId: item.id }}
-                  className="detail-related-card"
-                  key={item.id}
-                  tabIndex={pageIndex === activePage ? 0 : -1}
-                >
-                  <div className="detail-related-card__image">
-                    <img src={`${ASSETS}/${item.image}`} alt={`${item.name} ${item.token}`} loading="lazy" decoding="async" {...{ fetchpriority: "low" }} />
-                  </div>
-                  <div>
-                    <p>
-                      {item.name} {item.token}
-                    </p>
-                    <strong>{eth(item.price)}</strong>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      {pages.length > 1 && (
-        <div className="detail-related__dots" role="group" aria-label="Navegação da coleção">
-          {pages.map((_, index) => (
-            <button
-              type="button"
-              key={index}
-              className={index === activePage ? "is-active" : ""}
-              aria-current={index === activePage ? "true" : undefined}
-              aria-label={`Ver página ${index + 1} da coleção`}
-              onClick={() => setPage(index)}
-            />
-          ))}
-        </div>
-      )}
+      <ProductCarousel items={items} prefix="detail-related" label="Mais desta coleção" />
     </section>
   );
 }
