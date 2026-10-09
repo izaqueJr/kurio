@@ -11,7 +11,7 @@ execuções por página e perfil; HTML/JSON de cada execução na mesma pasta). 
 | mobile · detalhe | 85 | 97 | 100 | 100 | 3,75 s | 0 | 27 ms |
 
 Todas as categorias atingem a meta na medição local, exceto **Performance no perfil mobile (85–87 contra 90)**.
-Em produção o PageSpeed Insights mede **93** no mobile (ver abaixo).
+Em produção o PageSpeed Insights mede **91–93** no mobile (ver abaixo).
 
 ## Por que o mobile local fica em 85–87
 
@@ -29,7 +29,7 @@ exclusiva para a auditoria.
 ## Medição em produção (PageSpeed Insights)
 
 No deploy público (`https://kurio.izaque.dev/`, CDN da Vercel com HTTP/2, compressão e cache imutável dos
-assets), o PageSpeed Insights no perfil **celular** registrou **Desempenho 93**, Acessibilidade 100, Práticas
+assets), o PageSpeed Insights no perfil **celular** registrou **Desempenho 91–93** em execuções diferentes, Acessibilidade 100, Práticas
 recomendadas 96 e SEO 100 (FCP 2,2 s, LCP 2,9 s). É o mesmo build e o mesmo
 cenário de mocks; a diferença em relação à medição local vem do ambiente de laboratório (máquina e calibração de CPU
 dos servidores do PageSpeed, servidor HTTP/2 da Vercel em vez do `vite preview`). Como o FCP/LCP está próximo do
